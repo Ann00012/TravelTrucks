@@ -26,7 +26,7 @@ TravelTrucks is a modern web application designed for discovering and booking ca
 
 1. **Clone the repository:**
    ```bash
-   git clone [https://github.com/your-username/travel-trucks.git](https://github.com/your-username/travel-trucks.git)
+   git clone [https://github.com/Ann00012/TravelTrucks](https://github.com/Ann00012/TravelTrucks)
 
 2. **Install dependencies:**
    ```bash
