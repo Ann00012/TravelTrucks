@@ -1,0 +1,42 @@
+.notFoundWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  text-align: center;
+  padding: 20px;
+}
+
+.errorCode {
+  font-size: 120px;
+  font-weight: 700;
+  color: #E44848;
+  margin: 0;
+}
+
+.errorTitle {
+  font-size: 24px;
+  color: #101828;
+  margin-bottom: 12px;
+}
+
+.errorMessage {
+  color: #475467;
+  max-width: 400px;
+  margin-bottom: 32px;
+}
+
+.backHomeBtn {
+  padding: 16px 40px;
+  background-color: #E44848;
+  color: white;
+  border-radius: 200px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.3s ease;
+}
+
+.backHomeBtn:hover {
+  background-color: #cf3d3d;
+}

@@ -1,4 +1,4 @@
-import { CampersResponse, FilterState,Camper } from "@/types/types";
+import { CampersResponse, FilterState,  } from "@/types/types";
 
 const BASE_URL = "https://campers-api.goit.study";
 
@@ -24,7 +24,6 @@ export const fetchCampersData = async (
 
   if (!response.ok) {
     if (response.status === 404) {
-      // Обробляємо випадок, коли за фільтрами нічого не знайдено
       return { campers: [], total: 0, page: 1, perPage: 4, totalPages: 0 };
     }
     throw new Error(`HTTP error! status: ${response.status}`);
@@ -34,11 +33,43 @@ export const fetchCampersData = async (
 };
 
 export const fetchCamperById = async (id: string) => {
-  const response = await fetch(`${BASE_URL}/campers/${id}`);
-  if (!response.ok) throw new Error("Failed to fetch camper details");
-  return response.json();
+  const [camperRes, reviewsRes] = await Promise.all([
+    fetch(`${BASE_URL}/campers/${id}`),
+    fetch(`${BASE_URL}/campers/${id}/reviews`)
+  ]);
+
+  if (!camperRes.ok) throw new Error("Failed to fetch camper details");
+  if (!reviewsRes.ok) throw new Error("Failed to fetch camper reviews");
+
+  const camperData = await camperRes.json();
+  const reviewsData = await reviewsRes.json();
+
+  return {
+    ...camperData,
+    reviews: reviewsData,
+  };
 };
-export const sendBookingRequest = async (data: { name: string; email: string; date: string; comment?: string }) => {
-  console.log("Booking data sent:", data);
-  return { success: true };
+
+export const sendBookingRequest = async (
+  camperId: string, 
+  data: { name: string; email: string; date: string; comment?: string }
+) => {
+  const response = await fetch(`${BASE_URL}/campers/${camperId}/booking-requests`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      name: data.name,
+      email: data.email,
+      bookingDate: data.date, 
+      comment: data.comment,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Помилка бронювання: ${response.status}`);
+  }
+
+  return response.json();
 };
